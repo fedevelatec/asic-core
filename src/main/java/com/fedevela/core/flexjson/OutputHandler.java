@@ -1,13 +1,13 @@
 package com.fedevela.core.flexjson;
 
 /**
- * Created by fvelazquez on 16/04/14.
+ * Created by Federico on 16/04/14.
  */
-public abstract interface OutputHandler
-{
-    public abstract OutputHandler write(String paramString);
+public interface OutputHandler {
 
-    public abstract int write(String paramString1, int paramInt1, int paramInt2, String paramString2);
+    public OutputHandler write(String value);
 
-    public abstract int write(String paramString, int paramInt1, int paramInt2);
+    public int write(String value, int start, int end, String append);
+
+    public int write(String value, int start, int end);
 }

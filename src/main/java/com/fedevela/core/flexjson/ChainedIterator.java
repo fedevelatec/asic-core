@@ -1,40 +1,38 @@
 package com.fedevela.core.flexjson;
 
 /**
- * Created by fvelazquez on 16/04/14.
+ * Created by Federico on 16/04/14.
  */
 import java.util.Iterator;
 import java.util.Set;
 
-public class ChainedIterator implements Iterator
-{
+public class ChainedIterator implements Iterator {
+
     Iterator[] iterators;
     int current = 0;
 
-    public ChainedIterator(Set... sets)
-    {
-        this.iterators = new Iterator[sets.length];
+    public ChainedIterator(Set... sets) {
+        iterators = new Iterator[sets.length];
         for (int i = 0; i < sets.length; i++) {
-            this.iterators[i] = sets[i].iterator();
+            iterators[i] = sets[i].iterator();
         }
     }
 
-    public boolean hasNext()
-    {
-        if (this.iterators[this.current].hasNext()) {
+    public boolean hasNext() {
+        if (iterators[current].hasNext()) {
             return true;
+        } else {
+            current++;
+            return current < iterators.length && iterators[current].hasNext();
         }
-        this.current += 1;
-        return (this.current < this.iterators.length) && (this.iterators[this.current].hasNext());
     }
 
-    public Object next()
-    {
-        return this.iterators[this.current].next();
+
+    public Object next() {
+        return iterators[current].next();
     }
 
-    public void remove()
-    {
-        this.iterators[this.current].remove();
+    public void remove() {
+        iterators[current].remove();
     }
 }

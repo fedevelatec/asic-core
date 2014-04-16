@@ -1,32 +1,34 @@
 package com.fedevela.core.flexjson;
 
 /**
- * Created by fvelazquez on 16/04/14.
+ * Created by Federico on 16/04/14.
  */
 import java.util.Arrays;
-import java.util.List;
 
-public class PathExpression
-{
+/**
+ * This is an internal class for Flexjson.  It's used to match on fields it encounters
+ * while walking the object graph.  Every expression is expressed in dot notation like foo.bar.baz.  Each term
+ * between the dots is a field name in that parent object.  All expressions are relative to some parent object
+ * within the context in which they are used.  Typically it is the object you're serializing.  Expressions may
+ * also contain wildcards like *.class.
+ */
+public class PathExpression {
     String[] expression;
     boolean wildcard = false;
     boolean included = true;
 
-    public PathExpression(String expr, boolean anInclude)
-    {
-        this.expression = expr.split("\\.");
-        this.wildcard = (expr.indexOf('*') >= 0);
-        this.included = anInclude;
+    public PathExpression(String expr, boolean anInclude) {
+        expression = expr.split("\\.");
+        wildcard = expr.indexOf('*') >= 0;
+        included = anInclude;
     }
 
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("[");
-        for (int i = 0; i < this.expression.length; i++)
-        {
-            builder.append(this.expression[i]);
-            if (i < this.expression.length - 1) {
+        for (int i = 0; i < expression.length; i++) {
+            builder.append(expression[i]);
+            if (i < expression.length - 1) {
                 builder.append(",");
             }
         }
@@ -34,64 +36,49 @@ public class PathExpression
         return builder.toString();
     }
 
-    public boolean matches(Path path)
-    {
+    public boolean matches(Path path) {
         int exprCurrentIndex = 0;
         int pathCurrentIndex = 0;
-        while (pathCurrentIndex < path.length())
-        {
-            String current = (String)path.getPath().get(pathCurrentIndex);
-            if ((exprCurrentIndex < this.expression.length) && (this.expression[exprCurrentIndex].equals("*")))
-            {
+        while (pathCurrentIndex < path.length()) {
+            String current = path.getPath().get(pathCurrentIndex);
+            if (exprCurrentIndex < expression.length && expression[exprCurrentIndex].equals("*")) {
                 exprCurrentIndex++;
-            }
-            else if ((exprCurrentIndex < this.expression.length) && (this.expression[exprCurrentIndex].equals(current)))
-            {
+            } else if (exprCurrentIndex < expression.length && expression[exprCurrentIndex].equals(current)) {
                 pathCurrentIndex++;
                 exprCurrentIndex++;
-            }
-            else if ((exprCurrentIndex - 1 >= 0) && (this.expression[(exprCurrentIndex - 1)].equals("*")))
-            {
+            } else if (exprCurrentIndex - 1 >= 0 && expression[exprCurrentIndex - 1].equals("*")) {
                 pathCurrentIndex++;
-            }
-            else
-            {
+            } else {
                 return false;
             }
         }
-        if ((exprCurrentIndex > 0) && (this.expression[(exprCurrentIndex - 1)].equals("*"))) {
-            return (pathCurrentIndex >= path.length()) && (exprCurrentIndex >= this.expression.length);
+        if (exprCurrentIndex > 0 && expression[exprCurrentIndex - 1].equals("*")) {
+            return pathCurrentIndex >= path.length() && exprCurrentIndex >= expression.length;
+        } else {
+            return pathCurrentIndex >= path.length() && path.length() > 0;
         }
-        return (pathCurrentIndex >= path.length()) && (path.length() > 0);
     }
 
-    public boolean isWildcard()
-    {
-        return this.wildcard;
+    public boolean isWildcard() {
+        return wildcard;
     }
 
-    public boolean isIncluded()
-    {
-        return this.included;
+    public boolean isIncluded() {
+        return included;
     }
 
-    public boolean equals(Object o)
-    {
-        if (this == o) {
-            return true;
-        }
-        if ((o == null) || (getClass() != o.getClass())) {
-            return false;
-        }
-        PathExpression that = (PathExpression)o;
-        if (!Arrays.equals(this.expression, that.expression)) {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PathExpression that = (PathExpression) o;
+
+        if (!Arrays.equals(expression, that.expression)) return false;
+
         return true;
     }
 
-    public int hashCode()
-    {
-        return this.expression != null ? Arrays.hashCode(this.expression) : 0;
+    public int hashCode() {
+        return (expression != null ? Arrays.hashCode(expression) : 0);
     }
 }

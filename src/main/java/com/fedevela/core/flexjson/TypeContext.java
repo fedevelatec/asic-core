@@ -1,47 +1,44 @@
 package com.fedevela.core.flexjson;
 
 /**
- * Created by fvelazquez on 16/04/14.
+ * Created by Federico on 16/04/14.
  */
-public class TypeContext
-{
+public class TypeContext {
+
     private BasicType basicType;
-    private boolean isFirst;
+    private int count;
     private String propertyName;
 
-    public TypeContext(BasicType basicType)
-    {
+    public TypeContext(BasicType basicType) {
         this.basicType = basicType;
-        this.isFirst = true;
+        count = 0;
     }
 
-    public BasicType getBasicType()
-    {
-        return this.basicType;
+    public BasicType getBasicType() {
+        return basicType;
     }
 
-    public void setBasicType(BasicType basicType)
-    {
+    public void setBasicType(BasicType basicType) {
         this.basicType = basicType;
     }
 
-    public boolean isFirst()
-    {
-        return this.isFirst;
+    public boolean isFirst() {
+        return count == 0;
     }
 
-    public void setFirst(boolean first)
-    {
-        this.isFirst = first;
+    public void decrement() {
+        count = Math.max(count-1, 0);
     }
 
-    public String getPropertyName()
-    {
-        return this.propertyName;
+    public void increment() {
+        count++;
     }
 
-    public void setPropertyName(String propertyName)
-    {
+    public String getPropertyName() {
+        return propertyName;
+    }
+
+    public void setPropertyName(String propertyName) {
         this.propertyName = propertyName;
     }
 }
