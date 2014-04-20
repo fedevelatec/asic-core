@@ -32,7 +32,6 @@ public class Utils
                 CWColumn cwc = (CWColumn)field.getAnnotation(CWColumn.class);
                 Long width = TypeCast.toLong(Double.valueOf(cwc.width() * 100.0D));
                 String header;
-                String header;
                 if (!TypeCast.isBlank(cwc.header()))
                 {
                     header = cwc.header();

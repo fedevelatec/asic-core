@@ -28,8 +28,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import net.codicentro.core.annotation.CWColumn;
-import net.codicentro.core.security.Encryption;
+import com.fedevela.core.cod.annotation.CWColumn;
+import com.fedevela.core.cod.security.Encryption;
 import org.apache.commons.lang.ArrayUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
@@ -51,7 +51,7 @@ public class Utils {
      *
      * @return
      */
-    public static String makeId(EncrypType et) {
+    public static String makeId(Types.EncrypType et) {
         String result = null;
         Encryption encryption = null;
         Random random = new Random(1000000);
@@ -229,8 +229,8 @@ public class Utils {
         StringBuilder out = new StringBuilder();
         out.append("<header name=\"").append(c.getSimpleName()).append("\" sheetname=\"Hoja 1\">");
         for (Field field : c.getDeclaredFields()) {
-            if (field.getAnnotation(com.codicentro.core.annotation.CWColumn.class) != null) {
-                com.codicentro.core.annotation.CWColumn obj = field.getAnnotation(com.codicentro.core.annotation.CWColumn.class);
+            if (field.getAnnotation(com.fedevela.core.cod.annotation.CWColumn.class) != null) {
+                com.fedevela.core.cod.annotation.CWColumn obj = field.getAnnotation(com.fedevela.core.cod.annotation.CWColumn.class);
                 out.append("<column");
                 /**
                  * * ATRIBUTOS DE LA ETIQUETA COLUMN **
@@ -263,6 +263,6 @@ public class Utils {
         out.append("</header>");
 
 
-        return com.codicentro.core.Utils.xmlPrettyFormat(out.toString());
+        return com.fedevela.core.cod.Utils.xmlPrettyFormat(out.toString());
     }
 }

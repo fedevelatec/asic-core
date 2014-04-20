@@ -55,6 +55,11 @@ public class TypeCast {
         return ((s == null) || (s.trim().equals("")));
     }
 
+    public static boolean isBlank(String s)
+    {
+        return (s == null) || (s.trim().equals(""));
+    }
+
     /**
      * Remplaza el valor s por r en caso de que se cumpla la condicion.
      *

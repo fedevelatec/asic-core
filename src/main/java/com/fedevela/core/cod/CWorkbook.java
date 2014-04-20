@@ -3,7 +3,7 @@ package com.fedevela.core.cod;
 /**
  * Created by Federico on 20/04/14.
  */
-import com.codicentro.core.model.CCell;
+import com.fedevela.core.cod.model.CCell;
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
